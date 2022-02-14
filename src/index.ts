@@ -1,4 +1,5 @@
-import { Application, Graphics, Loader, Sprite, Texture } from 'pixi.js';
+import { TextureCache } from '@pixi/utils';
+import { AnimatedSprite, Application, Graphics, Loader, Sprite, Texture } from 'pixi.js';
 
 const app = new Application({
   width: innerWidth,
@@ -10,18 +11,21 @@ document.body.appendChild(app.view);
 const loader = Loader.shared;
 
 loader
-  .add('img1', './assets/1.png')
-  .load((loader) => {
-    // convert to texture
-    const texture = Texture.from('img1');
+  .add('./assets/spritesheet.json')
+  .load(() => {
+    const textures = [];
 
-    // convet to sprite
-    const sprite = new Sprite(texture);
-    console.log(sprite);
+    for (let i = 0; i <= 4; i++) {
+      const texture = Texture.from(`RunRight0${i}.png`);
+      
+      textures.push(texture);
+    }
 
-    sprite.position.set(100, 100);
-    sprite.width = 100;
-    sprite.height = 100;
+    const animatedSprite = new AnimatedSprite(textures);
+    animatedSprite.x = 200;
+    animatedSprite.y = 100;
+    animatedSprite.play();
 
-    app.stage.addChild(sprite);
+    app.stage.addChild(animatedSprite);
+    animatedSprite.animationSpeed = 0.5;
   });
