@@ -11,29 +11,14 @@ document.body.appendChild(app.view);
 const loader = Loader.shared;
 
 loader
-  .add('./assets/spritesheet.json')
-  .load(() => {
-    const textures = [];
-
-    for (let i = 0; i <= 4; i++) {
-      const texture = Texture.from(`RunRight0${i}.png`);
-      
-      textures.push(texture);
-    }
-
-    const animatedSprite = new AnimatedSprite(textures);
-    animatedSprite.x = 200;
-    animatedSprite.y = 100;
-    animatedSprite.play();
-
-    app.stage.addChild(animatedSprite);
-    animatedSprite.animationSpeed = 0.5;
+  .add('img', './assets/1.png')
+  .load((l) => {
+    const sprite = Sprite.from('img');
+    app.stage.addChild(sprite);
+    sprite.position.set(500);
 
     app.ticker.add(() => {
-      animatedSprite.x += 10;
-
-      if(animatedSprite.x == (screen.width + 100)) {
-        animatedSprite.x = 0;
-      }
+      sprite.x += 1;
+      sprite.rotation += 0.01;
     });
   });
